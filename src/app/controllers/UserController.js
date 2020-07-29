@@ -2,18 +2,6 @@ const UserModel = require('../models/UserModel');
 const UserValidator = require('../validators/UserValidator');
 
 class UserController {
-  async index(req, res) {
-    const response = await UserModel.find();
-
-    return res.json(response);
-  }
-
-  async show(req, res) {
-    const response = await UserModel.findById(req.params.id);
-
-    return res.json(response);
-  }
-
   async store(req, res) {
     try {
       await UserValidator(req.body, 'store');
@@ -42,12 +30,6 @@ class UserController {
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
-  }
-
-  async delete(req, res) {
-    await UserModel.findByIdAndDelete(req.params.id);
-
-    return res.send(true);
   }
 }
 
