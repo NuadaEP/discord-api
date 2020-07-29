@@ -8,15 +8,9 @@ class ChatController {
     return res.json(response);
   }
 
-  async show(req, res) {
-    const response = await ChatModel.findById(req.params.id);
-
-    return res.json(response);
-  }
-
   async store(req, res) {
     try {
-      await ChatValidator(req.body, 'store')
+      await ChatValidator(req.body, 'store');
 
       const response = await ChatModel.create(req.body);
 
@@ -26,22 +20,16 @@ class ChatController {
     }
   }
 
-  async update(req, res) {
+  async end(req, res) {
     try {
-      await ChatValidator(req.body, 'update')
-
-      const response = await ChatModel.findByIdAndUpdate(req.params.id, req.body);
+      const response = await ChatModel.findByIdAndUpdate(req.params.id, {
+        ended_at: new Date.now(),
+      });
 
       return res.json(response);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
-  }
-
-  async delete(req, res) {
-    await ChatModel.findByIdAndDelete(req.params.id);
-
-    return res.send(true);
   }
 }
 

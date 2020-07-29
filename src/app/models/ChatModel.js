@@ -2,32 +2,17 @@ const Mongoose = require('mongoose');
 
 const ChatModel = new Mongoose.Schema(
   {
-    external_id: {
-      type: String,
-      require: true,
-    },
+    external_id: String,
     users: [
       {
         type: Mongoose.Schema.Types.ObjectId,
         ref: 'User',
       },
     ],
-    last_message_resume: {
-      type: String,
-      require: true,
-    },
-    last_message_created_at: {
-      type: Date,
-      require: true,
-    },
-    ended_at: {
-      type: Date,
-      require: true,
-    },
-    custom_fields: {
-      type: String,
-      require: true,
-    },
+    last_message_resume: String,
+    last_message_created_at: Date,
+    ended_at: Date,
+    custom_fields: String,
   },
   {
     timestamps: true,

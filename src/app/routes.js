@@ -15,4 +15,8 @@ routes.delete(
   controllers.CustomFieldController.delete
 );
 
+routes.get('/chat', controllers.ChatController.index);
+routes.get('/chat/:id', controllers.ChatController.end);
+routes.post('/chat', controllers.ChatController.store);
+
 module.exports = routes;

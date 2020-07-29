@@ -10,10 +10,7 @@ const UserModel = new Mongoose.Schema(
       type: String,
       require: true,
     },
-    custom_fields: {
-      type: String,
-      require: true,
-    },
+    custom_fields: String,
     is_active: {
       type: Boolean,
       require: true,
