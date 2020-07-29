@@ -5,7 +5,9 @@ const MessageValidator = require('../validators/MessageValidator');
 
 class MessageController {
   async index(req, res) {
-    const response = await MessageModel.find();
+    const { chat_id } = req.params;
+
+    const response = await MessageModel.find({ chat: chat_id });
 
     return res.json(response);
   }
@@ -15,13 +17,14 @@ class MessageController {
       await MessageValidator(req.body, 'store');
 
       const { chat_id } = req.params;
-      const { user_id, content, custom_fields = {} } = req.body;
+      const { user_id, custom_fields = {} } = req.body;
 
-      const chat = await ChatModel.findById(chat_id).populate('users');
+      const chat = await ChatModel.findById(chat_id);
 
       const user = await UserModel.findById(user_id);
 
       const data = {
+        ...req.body,
         chat,
         user,
         custom_fields: JSON.stringify(custom_fields),
