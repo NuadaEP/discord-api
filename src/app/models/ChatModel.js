@@ -4,36 +4,38 @@ const ChatModel = new Mongoose.Schema(
   {
     external_id: {
       type: String,
-      require: true
+      require: true,
     },
-    users: {
-      type: String,
-      require: true
-    },
+    users: [
+      {
+        type: Mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     last_message_resume: {
       type: String,
-      require: true
+      require: true,
     },
     last_message_created_at: {
-      type: String,
-      require: true
+      type: Date,
+      require: true,
     },
     created_at: {
       type: Date,
-      require: true
+      require: true,
     },
     ended_at: {
       type: Date,
-      require: true
+      require: true,
     },
     custom_fields: {
       type: String,
-      require: true
+      require: true,
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-module.exports = Mongoose.model('Chat', ChatModel)
+module.exports = Mongoose.model('Chat', ChatModel);

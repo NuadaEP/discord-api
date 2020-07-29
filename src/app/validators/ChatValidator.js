@@ -1,4 +1,4 @@
-const Yup = require('yup')
+const Yup = require('yup');
 
 class ChatValidator {
   validation(body, role) {
@@ -9,10 +9,10 @@ class ChatValidator {
         validationConfig = Yup.object().shape({
           external_id: Yup.string().required(),
           users: Yup.string().required(),
-          last_message_resume: Yup.string().required(),
-          last_message_created_at: Yup.string().required(),
+          last_message_resume: Yup.string(),
+          last_message_created_at: Yup.string(),
           created_at: Yup.date().required(),
-          ended_at: Yup.date().required(),
+          ended_at: Yup.date(),
           custom_fields: Yup.string().required(),
         });
         break;
@@ -34,4 +34,4 @@ class ChatValidator {
   }
 }
 
-module.exports = new ChatValidator().validation
+module.exports = new ChatValidator().validation;
