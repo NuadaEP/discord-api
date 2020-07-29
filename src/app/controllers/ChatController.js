@@ -1,3 +1,4 @@
+const UserModel = require('../models/UserModel');
 const ChatModel = require('../models/ChatModel');
 const ChatValidator = require('../validators/ChatValidator');
 
@@ -12,7 +13,23 @@ class ChatController {
     try {
       await ChatValidator(req.body, 'store');
 
-      const response = await ChatModel.create(req.body);
+      const { external_id = null, users, custom_fields = {} } = req.body;
+
+      const user_one = await UserModel.findOne({
+        external_id: users.user_one_external_id,
+      });
+
+      const user_two = await UserModel.findOne({
+        external_id: users.user_two_external_id,
+      });
+
+      const data = {
+        external_id,
+        users: [user_one, user_two],
+        custom_fields: JSON.stringify(custom_fields),
+      };
+
+      const response = await ChatModel.create(data);
 
       return res.json(response);
     } catch (error) {
