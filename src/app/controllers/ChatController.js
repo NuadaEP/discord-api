@@ -4,7 +4,7 @@ const ChatValidator = require('../validators/ChatValidator');
 
 class ChatController {
   async index(req, res) {
-    const response = await ChatModel.find({ ended_at: null });
+    const response = await ChatModel.find({ ended_at: null }).populate('users');
 
     return res.json(response);
   }
