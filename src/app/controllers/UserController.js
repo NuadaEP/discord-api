@@ -33,10 +33,10 @@ class UserController {
     try {
       await UserValidator(req.body, 'update');
 
-      const response = await UserModel.findByIdAndUpdate(
-        req.params.id,
-        req.body
-      );
+      const response = await UserModel.findByIdAndUpdate(req.params.id, {
+        ...req.body,
+        custom_fields: JSON.stringify(req.body.custom_fields),
+      });
 
       return res.json(response);
     } catch (error) {
