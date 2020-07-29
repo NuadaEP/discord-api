@@ -12,7 +12,7 @@ routes.put('/user/:id', controllers.UserController.update);
 routes.post('/custom/:external_id', controllers.CustomFieldController.store);
 routes.delete(
   '/custom/:external_id/:field_name',
-  controllers.UserController.update
+  controllers.CustomFieldController.delete
 );
 
 module.exports = routes;

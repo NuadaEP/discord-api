@@ -26,7 +26,28 @@ class CustomFieldController {
   }
 
   async delete(req, res) {
-    return res.json({});
+    try {
+      const { external_id, field_name } = req.params;
+
+      const condition = { external_id };
+
+      const user = await UserModel.findOne(condition);
+
+      const custom_fields = JSON.parse(user.custom_fields);
+
+      delete custom_fields[field_name];
+
+      const update = {
+        ...user.toJSON(),
+        custom_fields: JSON.stringify({ ...custom_fields, ...req.body.field }),
+      };
+
+      const response = await UserModel.findOneAndUpdate(condition, update);
+
+      return res.json(response);
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
   }
 }
 
