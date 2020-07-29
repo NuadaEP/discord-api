@@ -7,6 +7,8 @@ class MessageValidator {
     switch (role) {
       case 'store':
         validationConfig = Yup.object().shape({
+          chat_id: Yup.string().required(),
+          user_id: Yup.string().required(),
           content: Yup.string().required(),
           custom_fields: Yup.string(),
         });
@@ -14,6 +16,8 @@ class MessageValidator {
 
       case 'update':
         validationConfig = Yup.object().shape({
+          chat_id: Yup.string(),
+          user_id: Yup.string(),
           content: Yup.string(),
           custom_fields: Yup.string(),
         });
