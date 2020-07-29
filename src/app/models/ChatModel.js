@@ -11,7 +11,7 @@ const ChatModel = new Mongoose.Schema(
     ],
     last_message_resume: String,
     last_message_created_at: Date,
-    ended_at: Date,
+    ended_at: { type: Date, default: null },
     custom_fields: String,
   },
   {

@@ -4,7 +4,7 @@ const ChatValidator = require('../validators/ChatValidator');
 
 class ChatController {
   async index(req, res) {
-    const response = await ChatModel.find();
+    const response = await ChatModel.find({ ended_at: null });
 
     return res.json(response);
   }
@@ -40,7 +40,7 @@ class ChatController {
   async end(req, res) {
     try {
       const response = await ChatModel.findByIdAndUpdate(req.params.id, {
-        ended_at: new Date.now(),
+        ended_at: new Date(),
       });
 
       return res.json(response);
