@@ -20,10 +20,6 @@ const ChatModel = new Mongoose.Schema(
       type: Date,
       require: true,
     },
-    created_at: {
-      type: Date,
-      require: true,
-    },
     ended_at: {
       type: Date,
       require: true,
