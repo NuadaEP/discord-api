@@ -1,4 +1,4 @@
-const Yup = require('yup')
+const Yup = require('yup');
 
 class UserValidator {
   validation(body, role) {
@@ -10,7 +10,7 @@ class UserValidator {
           name: Yup.string().required(),
           external_id: Yup.string().required(),
           custom_fields: Yup.string().required(),
-          is_active: Yup.boolean().required(),
+          is_active: Yup.boolean(),
         });
         break;
 
@@ -28,4 +28,4 @@ class UserValidator {
   }
 }
 
-module.exports = new UserValidator().validation
+module.exports = new UserValidator().validation;

@@ -3,10 +3,10 @@ const controllers = require('./controllers');
 
 const routes = Router();
 
-routes.get('/sample', controllers.SampleController.index);
-routes.get('/sample/:id', controllers.SampleController.show);
-routes.post('/sample', controllers.SampleController.store);
-routes.put('/sample/:id', controllers.SampleController.update);
-routes.delete('/sample/:id', controllers.SampleController.delete);
+// routes.get('/user', controllers.UserController.index);
+// routes.get('/user/:id', controllers.UserController.show);
+routes.post('/user', controllers.UserController.store);
+routes.put('/user/:id', controllers.UserController.update);
+// routes.delete('/user/:id', controllers.UserController.delete);
 
 module.exports = routes;

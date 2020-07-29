@@ -4,24 +4,25 @@ const UserModel = new Mongoose.Schema(
   {
     name: {
       type: String,
-      require: true
+      require: true,
     },
     external_id: {
       type: String,
-      require: true
+      require: true,
     },
     custom_fields: {
       type: String,
-      require: true
+      require: true,
     },
     is_active: {
       type: Boolean,
-      require: true
+      require: true,
+      default: true,
     },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
-module.exports = Mongoose.model('User', UserModel)
+module.exports = Mongoose.model('User', UserModel);

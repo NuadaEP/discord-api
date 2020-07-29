@@ -1,7 +1,7 @@
-const SampleController = require('./SampleController');
+const UserController = require('./UserController');
 
 const controllers = {
-  SampleController
+  UserController,
 };
 
 module.exports = controllers;
