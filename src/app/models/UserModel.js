@@ -6,6 +6,10 @@ const AuthConfig = require('../../config/auth')
 
 const UserModel = new Mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+    },
     username: {
       type: String,
       required: true,
