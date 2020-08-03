@@ -22,12 +22,18 @@ class ChatController {
 
       const { user_id } = req.body;
 
+      if (creator_id === user_id) {
+        return res
+          .status(400)
+          .json({ message: 'You cannot creat a chat with yourself' });
+      }
+
       const user_one = await UserModel.findById(creator_id);
 
-      const user_two = await UserModel.findOne(user_id);
+      const user_two = await UserModel.findById(user_id);
 
       const data = {
-        external_id,
+        creator_id,
         users: [user_one, user_two],
       };
 
