@@ -22,7 +22,6 @@ const MessageModel = new Mongoose.Schema(
       type: String,
       require: true,
     },
-    custom_fields: String,
   },
   {
     timestamps: true,

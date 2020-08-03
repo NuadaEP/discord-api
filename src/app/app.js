@@ -22,7 +22,7 @@ class App {
       useCreateIndex: true,
       useNewUrlParser: true,
       useFindAndModify: false,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     });
   }
 
@@ -36,7 +36,11 @@ class App {
   }
 
   exception() {
-    this.server.use(async (err, req, res, next) => res.status(err.status || 500).json({ message: 'Internal Server Error' }));
+    this.server.use(async (err, req, res, next) =>
+      res
+        .status(err.status || 500)
+        .json({ message: err || 'Internal Server Error' })
+    );
   }
 }
 

@@ -7,6 +7,11 @@ class MessageController {
   async index(req, res) {
     const { chat_id } = req.params;
 
+    const chat = await ChatModel.findById(chat_id);
+
+    if (!chat)
+      return res.status(400).json({ message: 'This chat does not exists' });
+
     const response = await MessageModel.find({ chat: chat_id });
 
     return res.json(response);
@@ -17,9 +22,12 @@ class MessageController {
       await MessageValidator(req.body, 'store');
 
       const { chat_id } = req.params;
-      const { user_id, custom_fields = {} } = req.body;
+      const { _id: user_id } = res.locals.user;
 
       const chat = await ChatModel.findById(chat_id);
+
+      if (!chat)
+        return res.status(400).json({ message: 'This chat does not exists' });
 
       const user = await UserModel.findById(user_id);
 
@@ -27,7 +35,6 @@ class MessageController {
         ...req.body,
         chat,
         user,
-        custom_fields: JSON.stringify(custom_fields),
       };
 
       const response = await MessageModel.create(data);
