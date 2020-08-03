@@ -7,8 +7,15 @@ class ChatController {
     const { _id: creator_id } = res.locals.user;
 
     const response = await ChatModel.find({
-      creator_id,
-    }).populate('users');
+      $or: [
+        {
+          creator: creator_id,
+        },
+        {
+          user: creator_id,
+        },
+      ],
+    }).populate(['creator', 'user']);
 
     return res.json(response);
   }
@@ -28,23 +35,34 @@ class ChatController {
       }
 
       const verifyAlreadyCreatedChat = await ChatModel.findOne({
-        users: [creator_id, user_id],
+        $or: [
+          {
+            $and: [{ creator: creator_id }, { user: user_id }],
+          },
+          {
+            $and: [{ creator: user_id, user: creator_id }],
+          },
+        ],
       });
 
       if (verifyAlreadyCreatedChat) {
         return res.status(400).json({ message: 'This chat already exist' });
       }
 
-      const user_one = await UserModel.findById(creator_id);
+      const creator = await UserModel.findById(creator_id);
 
-      const user_two = await UserModel.findById(user_id);
+      const user = await UserModel.findById(user_id);
 
-      const data = {
-        creator_id,
-        users: [user_one, user_two],
-      };
+      if (!user) {
+        return res.status(400).json({
+          message: 'This user that you start the chat does not exists',
+        });
+      }
 
-      const response = await ChatModel.create(data);
+      const response = await ChatModel.create({
+        creator,
+        user,
+      });
 
       return res.json(response);
     } catch (error) {

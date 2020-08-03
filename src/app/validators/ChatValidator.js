@@ -7,7 +7,6 @@ class ChatValidator {
     switch (role) {
       case 'store':
         validationConfig = Yup.object().shape({
-          external_id: Yup.string(),
           user_id: Yup.string().required(),
           last_message_resume: Yup.string(),
           last_message_created_at: Yup.string(),
