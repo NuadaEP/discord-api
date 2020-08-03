@@ -13,7 +13,6 @@ routes.use(Authentication);
 routes.get('/user', controllers.UserController.index);
 
 routes.get('/chat', controllers.ChatController.index);
-routes.get('/chat/:id', controllers.ChatController.end);
 routes.post('/chat', controllers.ChatController.store);
 
 routes.get('/message/:chat_id', controllers.MessageController.index);

@@ -69,18 +69,6 @@ class ChatController {
       return res.status(400).json({ message: error.message });
     }
   }
-
-  async end(req, res) {
-    try {
-      const response = await ChatModel.findByIdAndUpdate(req.params.id, {
-        ended_at: new Date(),
-      });
-
-      return res.json(response);
-    } catch (error) {
-      return res.status(400).json({ message: error.message });
-    }
-  }
 }
 
 module.exports = new ChatController();
