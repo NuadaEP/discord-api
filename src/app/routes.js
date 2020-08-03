@@ -12,12 +12,6 @@ routes.use(Authentication);
 
 routes.get('/user', controllers.UserController.index);
 
-routes.post('/custom/:external_id', controllers.CustomFieldController.store);
-routes.delete(
-  '/custom/:external_id/:field_name',
-  controllers.CustomFieldController.delete
-);
-
 routes.get('/chat', controllers.ChatController.index);
 routes.get('/chat/:id', controllers.ChatController.end);
 routes.post('/chat', controllers.ChatController.store);
