@@ -4,7 +4,6 @@ const controllers = require('./controllers');
 const routes = Router();
 
 routes.post('/user', controllers.UserController.store);
-routes.put('/user/:id', controllers.UserController.update);
 
 routes.post('/custom/:external_id', controllers.CustomFieldController.store);
 routes.delete(

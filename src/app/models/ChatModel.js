@@ -2,7 +2,7 @@ const Mongoose = require('mongoose');
 
 const ChatModel = new Mongoose.Schema(
   {
-    external_id: String,
+    creator_id: String,
     users: [
       {
         type: Mongoose.Schema.Types.ObjectId,

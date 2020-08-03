@@ -8,7 +8,7 @@ class ChatValidator {
       case 'store':
         validationConfig = Yup.object().shape({
           external_id: Yup.string(),
-          users: Yup.string().required(),
+          user_id: Yup.string().required(),
           last_message_resume: Yup.string(),
           last_message_created_at: Yup.string(),
           ended_at: Yup.date(),
@@ -19,7 +19,7 @@ class ChatValidator {
       case 'update':
         validationConfig = Yup.object().shape({
           external_id: Yup.string(),
-          users: Yup.string(),
+          user_id: Yup.string(),
           last_message_resume: Yup.string(),
           last_message_created_at: Yup.string(),
           ended_at: Yup.date(),

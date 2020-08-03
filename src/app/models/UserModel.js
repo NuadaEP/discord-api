@@ -1,8 +1,8 @@
-const Mongoose = require('mongoose')
-const Bcrypt = require('bcryptjs')
-const Jwt = require('jsonwebtoken')
+const Mongoose = require('mongoose');
+const Bcrypt = require('bcryptjs');
+const Jwt = require('jsonwebtoken');
 
-const AuthConfig = require('../../config/auth')
+const AuthConfig = require('../../config/auth');
 
 const UserModel = new Mongoose.Schema(
   {
@@ -10,39 +10,39 @@ const UserModel = new Mongoose.Schema(
       type: String,
       required: true,
     },
-    username: {
+    email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     password: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
-)
+);
 
 UserModel.pre('save', async function(next) {
-  if (!this.isModified('password')) return next()
+  if (!this.isModified('password')) return next();
 
-  this.password = await Bcrypt.hash(this.password, 8)
-})
+  this.password = await Bcrypt.hash(this.password, 8);
+});
 
 UserModel.methods = {
   compareHash(password) {
-    return Bcrypt.compare(password, this.password)
-  }
-}
+    return Bcrypt.compare(password, this.password);
+  },
+};
 
 UserModel.statics = {
   generateToken(user) {
     return Jwt.sign({ user }, AuthConfig.secret, {
-      expiresIn: AuthConfig.ttl
-    })
-  }
-}
+      expiresIn: AuthConfig.ttl,
+    });
+  },
+};
 
-module.exports = Mongoose.model('User', UserModel)
+module.exports = Mongoose.model('User', UserModel);

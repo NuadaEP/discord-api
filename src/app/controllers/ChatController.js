@@ -4,7 +4,12 @@ const ChatValidator = require('../validators/ChatValidator');
 
 class ChatController {
   async index(req, res) {
-    const response = await ChatModel.find({ ended_at: null }).populate('users');
+    const { _id: creator_id } = res.locals.user;
+
+    const response = await ChatModel.find({
+      ended_at: null,
+      creator_id,
+    }).populate('users');
 
     return res.json(response);
   }
@@ -13,20 +18,17 @@ class ChatController {
     try {
       await ChatValidator(req.body, 'store');
 
-      const { external_id = null, users, custom_fields = {} } = req.body;
+      const { _id: creator_id } = res.locals.user;
 
-      const user_one = await UserModel.findOne({
-        external_id: users.user_one_external_id,
-      });
+      const { user_id } = req.body;
 
-      const user_two = await UserModel.findOne({
-        external_id: users.user_two_external_id,
-      });
+      const user_one = await UserModel.findById(creator_id);
+
+      const user_two = await UserModel.findOne(user_id);
 
       const data = {
         external_id,
         users: [user_one, user_two],
-        custom_fields: JSON.stringify(custom_fields),
       };
 
       const response = await ChatModel.create(data);
