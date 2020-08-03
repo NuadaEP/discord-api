@@ -11,8 +11,6 @@ class ChatValidator {
           user_id: Yup.string().required(),
           last_message_resume: Yup.string(),
           last_message_created_at: Yup.string(),
-          ended_at: Yup.date(),
-          custom_fields: Yup.string(),
         });
         break;
 
@@ -22,8 +20,6 @@ class ChatValidator {
           user_id: Yup.string(),
           last_message_resume: Yup.string(),
           last_message_created_at: Yup.string(),
-          ended_at: Yup.date(),
-          custom_fields: Yup.string(),
         });
         break;
     }

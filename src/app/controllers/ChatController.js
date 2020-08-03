@@ -7,7 +7,6 @@ class ChatController {
     const { _id: creator_id } = res.locals.user;
 
     const response = await ChatModel.find({
-      ended_at: null,
       creator_id,
     }).populate('users');
 
@@ -26,6 +25,14 @@ class ChatController {
         return res
           .status(400)
           .json({ message: 'You cannot creat a chat with yourself' });
+      }
+
+      const verifyAlreadyCreatedChat = await ChatModel.findOne({
+        users: [creator_id, user_id],
+      });
+
+      if (verifyAlreadyCreatedChat) {
+        return res.status(400).json({ message: 'This chat already exist' });
       }
 
       const user_one = await UserModel.findById(creator_id);
