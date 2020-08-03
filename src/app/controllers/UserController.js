@@ -1,36 +1,34 @@
-const UserModel = require('../models/UserModel');
-const UserValidator = require('../validators/UserValidator');
+const UserValidator = require('../validators/UserValidator')
+const User = require('../models/UserModel')
 
 class UserController {
-  async store(req, res) {
-    try {
-      await UserValidator(req.body, 'store');
+  async show(req, res) {
+    const { _id: user_id } = res.locals.user
 
-      const response = await UserModel.create({
-        ...req.body,
-        custom_fields: JSON.stringify(req.body.custom_fields),
-      });
-
-      return res.json(response);
-    } catch (error) {
-      return res.status(400).json({ message: error.message });
-    }
+    return res.send({ user_id })
   }
 
-  async update(req, res) {
+  async store(req, res) {
     try {
-      await UserValidator(req.body, 'update');
+      await UserValidator(req.body, 'store')
 
-      const response = await UserModel.findByIdAndUpdate(req.params.id, {
-        ...req.body,
-        custom_fields: JSON.stringify(req.body.custom_fields),
-      });
+      const { email, password, confirmPassword } = req.body
 
-      return res.json(response);
+      if (await User.findOne({ email }))
+        return res
+          .status(400)
+          .json({ message: 'User is already in use' })
+
+      if (password != confirmPassword)
+        return res
+          .status(400)
+          .json({ message: 'The provided password is not identical' })
+
+      return res.json(await User.create({ email, password }))
     } catch (error) {
-      return res.status(400).json({ message: error.message });
+      return res.status(400).json({ message: error.message })
     }
   }
 }
 
-module.exports = new UserController();
+module.exports = new UserController()

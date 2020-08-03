@@ -1,25 +1,44 @@
-const Mongoose = require('mongoose');
+const Mongoose = require('mongoose')
+const Bcrypt = require('bcryptjs')
+const Jwt = require('jsonwebtoken')
+
+const AuthConfig = require('../../config/auth')
 
 const UserModel = new Mongoose.Schema(
   {
-    name: {
+    username: {
       type: String,
-      require: true,
+      required: true,
+      unique: true
     },
-    external_id: {
+    password: {
       type: String,
-      require: true,
-    },
-    custom_fields: String,
-    is_active: {
-      type: Boolean,
-      require: true,
-      default: true,
-    },
+      required: true
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
-);
+)
 
-module.exports = Mongoose.model('User', UserModel);
+UserModel.pre('save', async function(next) {
+  if (!this.isModified('password')) return next()
+
+  this.password = await Bcrypt.hash(this.password, 8)
+})
+
+UserModel.methods = {
+  compareHash(password) {
+    return Bcrypt.compare(password, this.password)
+  }
+}
+
+UserModel.statics = {
+  generateToken(user) {
+    return Jwt.sign({ user }, AuthConfig.secret, {
+      expiresIn: AuthConfig.ttl
+    })
+  }
+}
+
+module.exports = Mongoose.model('User', UserModel)

@@ -1,4 +1,4 @@
-const Yup = require('yup');
+const Yup = require('yup')
 
 class UserValidator {
   validation(body, role) {
@@ -7,19 +7,17 @@ class UserValidator {
     switch (role) {
       case 'store':
         validationConfig = Yup.object().shape({
-          name: Yup.string().required(),
-          external_id: Yup.string().required(),
-          custom_fields: Yup.string().required(),
-          is_active: Yup.boolean(),
+          email: Yup.string().email().required(),
+          password: Yup.string().required().min(6),
+          confirmPassword: Yup.string().required().min(6)
         });
         break;
 
       case 'update':
         validationConfig = Yup.object().shape({
-          name: Yup.string(),
-          external_id: Yup.string(),
-          custom_fields: Yup.string(),
-          is_active: Yup.boolean(),
+          email: Yup.string().email(),
+          password: Yup.string().min(6),
+          confirmPassword: Yup.string().min(6),
         });
         break;
     }
@@ -28,4 +26,4 @@ class UserValidator {
   }
 }
 
-module.exports = new UserValidator().validation;
+module.exports = new UserValidator().validation
