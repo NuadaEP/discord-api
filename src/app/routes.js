@@ -1,9 +1,16 @@
 const { Router } = require('express');
 const controllers = require('./controllers');
+const Authentication = require('./middlewares/AuthenticationMiddleware');
 
 const routes = Router();
 
 routes.post('/user', controllers.UserController.store);
+
+routes.post('/login', controllers.SessionController);
+
+routes.use(Authentication);
+
+routes.get('/user', controllers.UserController.index);
 
 routes.post('/custom/:external_id', controllers.CustomFieldController.store);
 routes.delete(
