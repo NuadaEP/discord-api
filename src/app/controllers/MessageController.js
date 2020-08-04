@@ -37,13 +37,13 @@ class MessageController {
         user,
       };
 
-      const message = await MessageModel.create(data);
+      const response = await MessageModel.create(data);
 
       chat.last_message_resume = req.body.content;
-      chat.last_message_created_at = message.createdAt;
+      chat.last_message_created_at = response.createdAt;
       chat.save();
 
-      const response = await MessageModel.find({ chat: chat_id });
+      req.io.emit('message', response);
 
       return res.json(response);
     } catch (error) {
