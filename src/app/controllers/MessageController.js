@@ -37,7 +37,13 @@ class MessageController {
         user,
       };
 
-      const response = await MessageModel.create(data);
+      const message = await MessageModel.create(data);
+
+      chat.last_message_resume = req.body.content;
+      chat.last_message_created_at = message.createdAt;
+      chat.save();
+
+      const response = await MessageModel.find({ chat: chat_id });
 
       return res.json(response);
     } catch (error) {
