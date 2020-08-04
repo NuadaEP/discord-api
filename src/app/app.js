@@ -9,7 +9,9 @@ const Routes = require('./routes');
 
 class App {
   constructor() {
-    this.server = Express();
+    this.app = Express();
+    this.server = require('http').Server(this.app);
+    this.io = require('socket.io')(this.server);
 
     this.database();
     this.middwares();
@@ -27,16 +29,21 @@ class App {
   }
 
   middwares() {
-    this.server.use(Express.json());
-    this.server.use(Express.urlencoded({ extended: true }));
+    this.app.use((req, res, next) => {
+      req.io = this.io;
+
+      next();
+    });
+    this.app.use(Express.json());
+    this.app.use(Express.urlencoded({ extended: true }));
   }
 
   routes() {
-    this.server.use(Routes);
+    this.app.use(Routes);
   }
 
   exception() {
-    this.server.use(async (err, req, res, next) =>
+    this.app.use(async (err, req, res, next) =>
       res
         .status(err.status || 500)
         .json({ message: err || 'Internal Server Error' })
