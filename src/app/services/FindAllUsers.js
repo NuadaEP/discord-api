@@ -1,6 +1,6 @@
 const User = require('../models/UserModel');
 
-class RemovePasswordAllUsers {
+class FindAllUsers {
   async execute() {
     const users = await User.find();
 
@@ -16,4 +16,4 @@ class RemovePasswordAllUsers {
   }
 }
 
-module.exports = new RemovePasswordAllUsers().execute;
+module.exports = new FindAllUsers().execute;

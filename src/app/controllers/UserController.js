@@ -1,11 +1,10 @@
 const UserValidator = require('../validators/UserValidator');
-const User = require('../models/UserModel');
-const RemovePasswordAllUsers = require('../services/RemovePasswordAllUsers');
+const FindAllUsers = require('../services/FindAllUsers');
 const CreateUser = require('../services/CreateUser');
 
 class UserController {
   async index(req, res) {
-    const users = await RemovePasswordAllUsers();
+    const users = await FindAllUsers();
 
     return res.json(users);
   }
