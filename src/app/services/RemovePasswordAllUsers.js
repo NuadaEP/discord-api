@@ -5,9 +5,11 @@ class RemovePasswordAllUsers {
     const users = await User.find();
 
     const usersWithOutPassword = users.map(user => {
-      delete user.password;
+      const _user = user.toJSON();
 
-      return user;
+      delete _user.password;
+
+      return _user;
     });
 
     return usersWithOutPassword;

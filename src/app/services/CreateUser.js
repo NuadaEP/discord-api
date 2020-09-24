@@ -14,9 +14,11 @@ class CreateUser {
     if (password !== confirmPassword)
       throw new Error('The provided password is not identical');
 
-    await User.create({ name, email, password });
+    const user = await (await User.create({ name, email, password })).toJSON();
 
-    return { success: true };
+    delete user.password;
+
+    return user;
   }
 }
 
