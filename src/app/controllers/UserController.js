@@ -1,9 +1,10 @@
 const UserValidator = require('../validators/UserValidator');
 const User = require('../models/UserModel');
+const RemovePasswordAllUsers = require('../services/RemovePasswordAllUsers');
 
 class UserController {
   async index(req, res) {
-    const users = await User.find();
+    const users = await RemovePasswordAllUsers();
 
     return res.json(users);
   }
@@ -28,7 +29,11 @@ class UserController {
           .status(400)
           .json({ message: 'The provided password is not identical' });
 
-      return res.json(await User.create({ name, email, password }));
+      const user = await User.create({ name, email, password });
+
+      delete user.password;
+
+      return res.json(user);
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
