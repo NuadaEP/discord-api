@@ -1,14 +1,9 @@
 const User = require('../models/UserModel');
+const FindOneUser = require('./FindOneUser');
 
 class CreateUser {
-  async findOneUser(email) {
-    const user = await User.findOne({ email });
-
-    return user;
-  }
-
   async execute({ name, email, password, confirmPassword }) {
-    if (await this.findOneUser(email))
+    if (await FindOneUser.execute(email))
       throw new Error('User is already in use');
 
     if (password !== confirmPassword)

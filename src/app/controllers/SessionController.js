@@ -1,10 +1,11 @@
 const User = require('../models/UserModel');
+const FindOneUser = require('../services/FindOneUser');
 
 class SessionController {
   async index(req, res) {
     const { email, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await FindOneUser.execute(email);
 
     if (!user) return res.status(400).json({ message: 'User not found' });
 
